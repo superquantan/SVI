@@ -119,6 +119,25 @@ typedef EFI_STATUS (*EFI_TEXT_ENABLE_CURSOR)(
 	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
 	BOOLEAN Visible
 );
+typedef EFI_STATUS (*EFI_NOTIFY)(
+	EFI_EVENT Event,
+	VOID *Context
+);
+typedef EFI_STATUS (*EFI_CREATE_EVENT)(
+	UINT32 Type,
+	EFI_TPL NotifyTpl,
+	EFI_EVENT_NOTIFY NotifyFunction,
+	VOID *NotifyContext,
+	EFI_EVENT *Event
+);
+typedef EFI_STATUS (*EFI_CREATE_EVENT_EX)(
+	UINT32 Type,
+	EFI_TPL NotifyTpl,
+	EFI_EVENT_NOTIFY NotifyFunction,
+	VOID *NotifyContext,
+	EFI_GUID *EventGroup,
+	EFI_EVENT *Event
+);
 struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL {
 	EFI_INPUT_RESET Reset;
 	EFI_INPUT_READ_KEY ReadKeyStroke;
