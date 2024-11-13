@@ -70,6 +70,11 @@ typedef struct {
 	INT32 CursorRow;
 	BOOLEAN CursorVisible;
 } SIMPLE_TEXT_OUTPUT_MODE;
+typedef enum {
+	TimerCancel,
+	TimerPeriodic,
+	TimerRelative
+} EFI_TIMER_DELAY;
 typedef struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL
 	EFI_SIMPLE_TEXT_INPUT_PROTOCOL;
 typedef struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL
@@ -137,6 +142,28 @@ typedef EFI_STATUS (*EFI_CREATE_EVENT_EX)(
 	VOID *NotifyContext,
 	EFI_GUID *EventGroup,
 	EFI_EVENT *Event
+);
+typedef EFI_STATUS (*EFI_CLOSE_EVENT)(
+	EFI_EVENT Event;
+);
+typedef EFI_STATUS (*EFI_SIGNAL_EVENT)(
+	EFI_EVENT Event;
+);
+typedef EFI_STATUS (*EFI_WAIT_FOR_EVENT)(
+	UINTN NumberOfEvents,
+	EFI_EVENT *Event,
+	UINTN *Index
+);
+typedef EFI_STATUS (*EFI_SET_TIMER)(
+	EFI_EVENT Event,
+	EFI_TIMER_DELAY Type,
+	UINT64 TriggerTime
+);
+typedef EFI_TPL (*EFI_RAISE_TPL)(
+	EFI_TPL NewTpl
+);
+typedef VOID (*EFI_RESTORE_TPL)(
+	EFI_TPL OldTpl
 );
 struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL {
 	EFI_INPUT_RESET Reset;
