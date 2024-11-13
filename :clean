@@ -1,0 +1,1 @@
+rm efiutil.o app.o bootx64.efi testing/image/efi/boot/bootx64.efi
