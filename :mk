@@ -1,0 +1,4 @@
+:
+x86_64-w64-mingw32-clang -mno-red-zone -ffreestanding efiutil.c app.c -c
+lld -flavor link -subsystem:efi_application -entry:efi_main app.o efiutil.o -out:bootx64.efi
+cp bootx64.efi testing/image/efi/boot

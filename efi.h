@@ -1,0 +1,154 @@
+#ifndef EFI_H
+#define EFI_H
+#include <stdint.h>
+#define TRUE 1
+#define FALSE 0
+#define EFI_SIMPLE_TEXT_INPUT_PROTOCOL_GUID \
+{0x387477c1,0x69c7,0x11d2,\
+{0x8e,0x39,0x00,0xa0,0xc9,0x69,0x72,0x3b}}
+#define EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL_GUID \
+{0x387477c2,0x69c7,0x11d2,\
+{0x8e,0x39,0x00,0xa0,0xc9,0x69,0x72,0x3b}}
+typedef char BOOLEAN;
+typedef int64_t INTN;
+typedef uint64_t UINTN;
+typedef int8_t INT8;
+typedef uint8_t UINT8;
+typedef int16_t INT16;
+typedef uint16_t UINT16;
+typedef int32_t INT32;
+typedef uint32_t UINT32;
+typedef int64_t INT64;
+typedef uint64_t UINT64;
+typedef __int128 INT128;
+typedef unsigned __int128 UINT128;
+typedef char CHAR8;
+typedef uint16_t CHAR16;
+typedef void VOID;
+typedef struct {
+	UINT32 pars1;
+	UINT16 pars2;
+	UINT16 pars3;
+	UINT8 pars4[8];
+} EFI_GUID;
+typedef UINTN EFI_STATUS;
+typedef VOID * EFI_HANDLE;
+typedef VOID * EFI_EVENT;
+typedef UINT64 EFI_LBA;
+typedef UINTN EFI_TPL;
+typedef struct {
+	UINT8 addr[32];
+} EFI_MAC_ADDRESS;
+typedef struct {
+	UINT8 addr[4];
+} EFI_IPv4_ADDRESS;
+typedef struct {
+	UINT8 addr[16];
+} EFI_IPv6_ADDRESS;
+typedef struct {
+	UINT8 addr1[4];
+	UINT8 addr2[4];
+	UINT8 addr3[4];
+	UINT8 addr4[4];
+} EFI_IP_ADDRESS;
+typedef struct {
+	UINT64 Signature;
+	UINT32 Revision;
+	UINT32 HeaderSize;
+	UINT32 CRC32;
+	UINT32 Reserved;
+} EFI_TABLE_HEADER;
+typedef struct {
+	UINT16 ScanCode;
+	CHAR16 UnicodeChar;
+} EFI_INPUT_KEY;
+typedef struct {
+	INT32 MaxMode;
+	INT32 Mode;
+	INT32 Attribute;
+	INT32 CursorColumn;
+	INT32 CursorRow;
+	BOOLEAN CursorVisible;
+} SIMPLE_TEXT_OUTPUT_MODE;
+typedef struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL
+	EFI_SIMPLE_TEXT_INPUT_PROTOCOL;
+typedef struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL;
+typedef EFI_STATUS (*EFI_INPUT_RESET)(
+	EFI_SIMPLE_TEXT_INPUT_PROTOCOL *This,
+	BOOLEAN ExtendedVerification
+);
+typedef EFI_STATUS (*EFI_INPUT_READ_KEY)(
+	EFI_SIMPLE_TEXT_INPUT_PROTOCOL *This,
+	EFI_INPUT_KEY *Key);
+typedef EFI_STATUS (*EFI_TEXT_RESET)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
+	BOOLEAN ExtendedVerification
+);
+typedef EFI_STATUS (*EFI_TEXT_STRING)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
+	CHAR16 *String
+);
+typedef EFI_STATUS (*EFI_TEXT_TEST_STRING)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
+	CHAR16 *String
+);
+typedef EFI_STATUS (*EFI_TEXT_QUERY_MODE)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
+	UINTN ModeNumber,
+	UINTN *Columns,
+	UINTN *Rows
+);
+typedef EFI_STATUS (*EFI_TEXT_SET_MODE)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
+	UINTN ModeNumber
+);
+typedef EFI_STATUS (*EFI_TEXT_SET_ATTRIBUTE)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
+	UINTN Attribute
+);
+typedef EFI_STATUS (*EFI_TEXT_CLEAR_SCREEN)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This
+);
+typedef EFI_STATUS (*EFI_TEXT_SET_CURSOR_POSITION)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
+	UINTN Column,
+	UINTN Row
+);
+typedef EFI_STATUS (*EFI_TEXT_ENABLE_CURSOR)(
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
+	BOOLEAN Visible
+);
+struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL {
+	EFI_INPUT_RESET Reset;
+	EFI_INPUT_READ_KEY ReadKeyStroke;
+	EFI_EVENT WaitForKey;
+};
+struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL {
+	EFI_TEXT_RESET Reset;
+	EFI_TEXT_STRING OutputString;
+	EFI_TEXT_TEST_STRING TestString;
+	EFI_TEXT_QUERY_MODE QueryMode;
+	EFI_TEXT_SET_MODE SetMode;
+	EFI_TEXT_SET_ATTRIBUTE SetAttribute;
+	EFI_TEXT_CLEAR_SCREEN ClearScreen;
+	EFI_TEXT_SET_CURSOR_POSITION SetCursorPosition;
+	EFI_TEXT_ENABLE_CURSOR EnableCursor;
+	SIMPLE_TEXT_OUTPUT_MODE *Mode;
+};
+typedef struct {
+	EFI_TABLE_HEADER Hdr;
+	CHAR16 *FirmwareVendor;
+	UINT32 FirmwareRevision;
+	EFI_HANDLE ConsoleInHandle;
+	EFI_SIMPLE_TEXT_INPUT_PROTOCOL *ConIn;
+	EFI_HANDLE ConsoleOutHandle;
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *ConOut;
+	EFI_HANDLE StandardErrorHandle;
+	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *StdErr;
+	VOID *RuntimeServices;
+	VOID *BootServices;
+	UINTN NumberOfTableEntries;
+	VOID *ConfigurationTable;
+} EFI_SYSTEM_TABLE;
+#endif
