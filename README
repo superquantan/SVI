@@ -1,0 +1,6 @@
+This is a work in progress.
+If all goes well, this should evolve into a UNIX clone with slightly interesting features. I have some ideas of security management I want to try, which led me to begin the development of this program. As of some date in November 2024, it is just a hello world.
+
+TODO:
+Finish implementing EFI_SYSTEM_TABLE structure
+Setup nicer ways to do the console IO, and get out of the boot services.
