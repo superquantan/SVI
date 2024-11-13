@@ -92,6 +92,6 @@
 // are acceptable.
 //
 // Do not use EFI_BACKGROUND_xxx values with this macro.
-//#define EFI_TEXT_ATTR(Foreground,Background) \
+#define EFI_TEXT_ATTR(Foreground,Background) \
 ((Foreground) | ((Background) << 4))
 #endif
