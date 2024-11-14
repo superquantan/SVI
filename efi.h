@@ -71,6 +71,10 @@ typedef struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL
 	EFI_SIMPLE_TEXT_INPUT_PROTOCOL;
 typedef struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL
 	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL;
+typedef VOID (*EFI_EVENT_NOTIFY)(
+	EFI_EVENT Event,
+	VOID *Context
+);
 typedef EFI_STATUS (*EFI_INPUT_RESET)(
 	EFI_SIMPLE_TEXT_INPUT_PROTOCOL *This,
 	BOOLEAN ExtendedVerification
@@ -136,15 +140,18 @@ typedef EFI_STATUS (*EFI_CREATE_EVENT_EX)(
 	EFI_EVENT *Event
 );
 typedef EFI_STATUS (*EFI_CLOSE_EVENT)(
-	EFI_EVENT Event;
+	EFI_EVENT Event
 );
 typedef EFI_STATUS (*EFI_SIGNAL_EVENT)(
-	EFI_EVENT Event;
+	EFI_EVENT Event
 );
 typedef EFI_STATUS (*EFI_WAIT_FOR_EVENT)(
 	UINTN NumberOfEvents,
 	EFI_EVENT *Event,
 	UINTN *Index
+);
+typedef EFI_STATUS (*EFI_CHECK_EVENT)(
+	EFI_EVENT Event
 );
 typedef EFI_STATUS (*EFI_SET_TIMER)(
 	EFI_EVENT Event,
@@ -176,6 +183,41 @@ struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL {
 };
 typedef struct {
 	EFI_TABLE_HEADER Hdr;
+	EFI_RAISE_TPL RaiseTPL;
+	EFI_RESTORE_TPL RestoreTPL;
+	VOID *AllocatePages;
+	VOID *FreePages;
+	VOID *GetMemoryMap;
+	VOID *AllocatePool;
+	VOID *FreePool;
+	EFI_CREATE_EVENT CreateEvent; 
+	EFI_SET_TIMER SetTimer; 
+	EFI_WAIT_FOR_EVENT WaitForEvent; 
+	EFI_SIGNAL_EVENT SignalEvent; 
+	EFI_CLOSE_EVENT CloseEvent; 
+	EFI_CHECK_EVENT CheckEvent; 
+	VOID *InstallProtocolInterface; 
+	VOID *ReinstallProtocolInterface; 
+	VOID *UninstallProtocolInterface; 
+	VOID *HandleProtocol; 
+	VOID *Reserved; 
+	VOID *RegisterProtocolNotify; 
+	VOID *LocateHandle; 
+	VOID *LocateDevicePath; 
+	VOID *InstallConfigurationTable; 
+	VOID *LoadImage; 
+	VOID *StartImage; 
+	VOID *Exit; 
+	VOID *UnloadImage; 
+	VOID *ExitBootServices; 
+	VOID *GetNextMonotonicCount; 
+	VOID *Stall; 
+	VOID *SetWatchdogTimer; 
+	VOID *ConnectController; 
+	VOID *DisconnectController; 
+} EFI_BOOT_SERVICES;
+typedef struct {
+	EFI_TABLE_HEADER Hdr;
 	CHAR16 *FirmwareVendor;
 	UINT32 FirmwareRevision;
 	EFI_HANDLE ConsoleInHandle;
@@ -185,7 +227,7 @@ typedef struct {
 	EFI_HANDLE StandardErrorHandle;
 	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *StdErr;
 	VOID *RuntimeServices;
-	VOID *BootServices;
+	EFI_BOOT_SERVICES *BootServices;
 	UINTN NumberOfTableEntries;
 	VOID *ConfigurationTable;
 } EFI_SYSTEM_TABLE;

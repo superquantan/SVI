@@ -65,7 +65,7 @@
 #define EFI_BROWN 0x06
 #define EFI_LIGHTGRAY 0x07
 #define EFI_BRIGHT 0x08
-#define EFI_DARKGRAY(EFI_BLACK \| EFI_BRIGHT) 0x08
+#define EFI_DARKGRAY	(EFI_BLACK | EFI_BRIGHT)
 #define EFI_LIGHTBLUE 0x09
 #define EFI_LIGHTGREEN 0x0A
 #define EFI_LIGHTCYAN 0x0B
@@ -92,6 +92,6 @@
 // are acceptable.
 //
 // Do not use EFI_BACKGROUND_xxx values with this macro.
-#define EFI_TEXT_ATTR(Foreground,Background) \
+#define EFI_TEXT_ATTR(Foreground, Background) \
 ((Foreground) | ((Background) << 4))
 #endif
