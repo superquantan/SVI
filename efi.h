@@ -1,14 +1,6 @@
 #ifndef EFI_H
 #define EFI_H
 #include <stdint.h>
-#define TRUE 1
-#define FALSE 0
-#define EFI_SIMPLE_TEXT_INPUT_PROTOCOL_GUID \
-{0x387477c1,0x69c7,0x11d2,\
-{0x8e,0x39,0x00,0xa0,0xc9,0x69,0x72,0x3b}}
-#define EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL_GUID \
-{0x387477c2,0x69c7,0x11d2,\
-{0x8e,0x39,0x00,0xa0,0xc9,0x69,0x72,0x3b}}
 typedef char BOOLEAN;
 typedef int64_t INTN;
 typedef uint64_t UINTN;
@@ -70,6 +62,11 @@ typedef struct {
 	INT32 CursorRow;
 	BOOLEAN CursorVisible;
 } SIMPLE_TEXT_OUTPUT_MODE;
+typedef enum {
+	TimerCancel,
+	TimerPeriodic,
+	TimerRelative
+} EFI_TIMER_DELAY;
 typedef struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL
 	EFI_SIMPLE_TEXT_INPUT_PROTOCOL;
 typedef struct _EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL
@@ -118,6 +115,47 @@ typedef EFI_STATUS (*EFI_TEXT_SET_CURSOR_POSITION)(
 typedef EFI_STATUS (*EFI_TEXT_ENABLE_CURSOR)(
 	EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL *This,
 	BOOLEAN Visible
+);
+typedef EFI_STATUS (*EFI_NOTIFY)(
+	EFI_EVENT Event,
+	VOID *Context
+);
+typedef EFI_STATUS (*EFI_CREATE_EVENT)(
+	UINT32 Type,
+	EFI_TPL NotifyTpl,
+	EFI_EVENT_NOTIFY NotifyFunction,
+	VOID *NotifyContext,
+	EFI_EVENT *Event
+);
+typedef EFI_STATUS (*EFI_CREATE_EVENT_EX)(
+	UINT32 Type,
+	EFI_TPL NotifyTpl,
+	EFI_EVENT_NOTIFY NotifyFunction,
+	VOID *NotifyContext,
+	EFI_GUID *EventGroup,
+	EFI_EVENT *Event
+);
+typedef EFI_STATUS (*EFI_CLOSE_EVENT)(
+	EFI_EVENT Event;
+);
+typedef EFI_STATUS (*EFI_SIGNAL_EVENT)(
+	EFI_EVENT Event;
+);
+typedef EFI_STATUS (*EFI_WAIT_FOR_EVENT)(
+	UINTN NumberOfEvents,
+	EFI_EVENT *Event,
+	UINTN *Index
+);
+typedef EFI_STATUS (*EFI_SET_TIMER)(
+	EFI_EVENT Event,
+	EFI_TIMER_DELAY Type,
+	UINT64 TriggerTime
+);
+typedef EFI_TPL (*EFI_RAISE_TPL)(
+	EFI_TPL NewTpl
+);
+typedef VOID (*EFI_RESTORE_TPL)(
+	EFI_TPL OldTpl
 );
 struct _EFI_SIMPLE_TEXT_INPUT_PROTOCOL {
 	EFI_INPUT_RESET Reset;
